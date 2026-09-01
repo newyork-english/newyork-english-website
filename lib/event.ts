@@ -1,0 +1,2 @@
+export const REVIEW_URL =
+  'https://map.naver.com/p/search/%EB%89%B4%EC%9A%95%EC%9E%89%EA%B8%80%EB%A6%AC%EC%89%AC/place/1739387776?placePath=%2Freview%3Fbk_query%3D%EB%89%B4%EC%9A%95%EC%9E%89%EA%B8%80%EB%A6%AC%EC%89%AC%26entry%3Dpll%26fromNxList%3Dtrue%26fromPanelNum%3D2%26locale%3Dko%26searchText%3D%EB%89%B4%EC%9A%95%EC%9E%89%EA%B8%80%EB%A6%AC%EC%89%AC%26svcName%3Dmap_pcv5%26timestamp%3D202609011600&entry=pll&from=nx&fromNxList=true&searchType=place&c=15.00,0,0,0,dh';
