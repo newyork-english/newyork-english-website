@@ -27,15 +27,26 @@ Never commit real credentials or reservation database exports.
 
 ## Hosting and database
 
-The existing repository deployment uses Cloudflare. The Worker needs a D1
-binding named `DB` and a secret named `ADMIN_PASSWORD`. Configure them for the
-target deployment before accepting reservations. `.openai/hosting.json` retains
-this repository's existing project identity; its `d1` declaration enables DB
-provisioning when using the Sites hosting pipeline.
+Cloudflare Workers Builds connects `newyork-english/newyork-english-website`
+on GitHub to the existing Worker `newyork-english-website`. Pushes to `main`
+automatically build and deploy. Build command: `pnpm run build`. Deploy command:
+`npx wrangler deploy`. Root directory: `/`. The Cloudflare Vite plugin writes
+`.wrangler/deploy/config.json` so Wrangler uses `dist/server/wrangler.json`.
+Vinext and the Cloudflare Vite plugin generate the deployable Worker and assets;
+the source configuration is `wrangler.json`.
 
-Apply `drizzle/0000_initial.sql` and `drizzle/0001_child_gender.sql` to a new D1
-database. Existing reservations from the old admissions website are not copied
-by moving source code. Migrate them separately if they need to be retained.
+The existing custom domain `newyorkenglish.co.kr` and workers.dev address are
+preserved. The `DB` binding uses the dedicated D1 database
+`newyork-english-website-db` (`02605a78-912c-4688-b71a-2f81a5fd6c7e`).
+The initial schema and child-gender column were applied on 2026-09-28.
+Do not rerun the initial SQL against this database. Production deployment does
+not reset, seed, or automatically migrate the database. Review future schema
+changes separately. The unrelated `enneagram-d1` database is not used.
 
-Pushing to the configured remote triggers the existing Cloudflare webhook.
-Source upload alone does not prove the deployment has the required bindings.
+Set `ADMIN_PASSWORD` as a production runtime secret in the Worker's Settings
+before using reservation administration. Never commit it. Existing runtime
+variables and secrets are preserved on deployment. Local development uses
+local D1 storage and `.dev.vars`; it does not modify production reservations.
+
+`.openai/hosting.json` retains the original Sites project identity for reference.
+The GitHub deployment uses the explicit Cloudflare configuration above.
