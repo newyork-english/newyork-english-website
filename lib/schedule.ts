@@ -12,32 +12,32 @@ export const sessions: Session[] = [
 
 const weekdays = ["월", "화", "수", "목", "금"];
 const iso = (date: Date) => date.toISOString().slice(0, 10);
-const dateLabel = (date: Date) => `${date.getMonth() + 1}월 ${date.getDate()}일 (${weekdays[date.getDay() - 1]})`;
+const dateLabel = (date: Date) => `${date.getUTCMonth() + 1}월 ${date.getUTCDate()}일 (${weekdays[date.getUTCDay() - 1]})`;
 
 export const slots: Slot[] = (() => {
   const result: Slot[] = [];
-  const add = (date: Date, time: string, track: Slot["track"], capacity: number, sessionId: string) => result.push({ id: `${iso(date)}-${time.replace(":", "")}`, date: iso(date), dateLabel: dateLabel(date), weekday: weekdays[date.getDay() - 1], time, track, capacity, sessionId });
+  const add = (date: Date, time: string, track: Slot["track"], capacity: number, sessionId: string) => result.push({ id: `${iso(date)}-${time.replace(":", "")}`, date: iso(date), dateLabel: dateLabel(date), weekday: weekdays[date.getUTCDay() - 1], time, track, capacity, sessionId });
   for (let day = 0; day < 5; day += 1) {
-    const date = new Date(2026, 10, 30 + day);
+    const date = new Date(Date.UTC(2026, 10, 30 + day));
     ["09:30", "11:00", "13:00"].forEach((time) => add(date, time, "재원생 동생", 1, "sibling"));
     if (day === 1 || day === 3) add(date, "15:20", "재원생 동생", 1, "sibling");
   }
   const assigned = ["5-1", "5-1", "5-1", "6-1", "7-1", "6-2", "7-1", "7-3", "5-1", "5-1"];
   let weekdayCount = 0;
   for (let dayOffset = 0; weekdayCount < 10; dayOffset += 1) {
-    const date = new Date(2026, 11, 7 + dayOffset);
-    if (date.getDay() === 0 || date.getDay() === 6) continue;
+    const date = new Date(Date.UTC(2026, 11, 7 + dayOffset));
+    if (date.getUTCDay() === 0 || date.getUTCDay() === 6) continue;
     const idForTime = (time: string) => {
-      if (date.getDate() === 18) return "7-2";
-      if (date.getDate() === 15) return time === "13:00" ? "5-1" : "7-1";
-      if (date.getDate() === 17) return time === "13:00" ? "5-1" : "6-1";
-      if (date.getDate() === 10 && time === "13:00") return "5-1";
-      if (date.getDate() === 8 && time === "16:00") return "5-1";
+      if (date.getUTCDate() === 18) return "7-2";
+      if (date.getUTCDate() === 15) return time === "13:00" ? "5-1" : "7-1";
+      if (date.getUTCDate() === 17) return time === "13:00" ? "5-1" : "6-1";
+      if (date.getUTCDate() === 10 && time === "13:00") return "5-1";
+      if (date.getUTCDate() === 8 && time === "16:00") return "5-1";
       return assigned[weekdayCount];
     };
     add(date, "10:00", "신규생", 4, idForTime("10:00"));
     add(date, "13:00", "신규생", 4, idForTime("13:00"));
-    if (date.getDay() === 2 || date.getDay() === 4) add(date, "16:00", "신규생", 4, idForTime("16:00"));
+    if (date.getUTCDay() === 2 || date.getUTCDay() === 4) add(date, "16:00", "신규생", 4, idForTime("16:00"));
     weekdayCount += 1;
   }
   return result;

@@ -17,5 +17,6 @@ export const reservations = sqliteTable("reservations", {
   childYear: text("child_year").notNull(),
   attendees: integer("attendees").notNull().default(1),
   status: text("status").notNull().default("confirmed"),
+  progress: text("progress").notNull().default("reserved"),
   createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
 });

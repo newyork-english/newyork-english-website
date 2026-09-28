@@ -1,3 +1,4 @@
+import { ensureProgressColumn } from '@/db/ensure-progress';
 import { and, count, eq, sql } from "drizzle-orm";
 import { getDb } from "../../../db";
 import { reservations } from "../../../db/schema";
@@ -12,7 +13,7 @@ function message(error: unknown) {
 
 export async function GET(request: Request) {
   if (!isAdmin(request)) return Response.json({ error: "관리자 인증이 필요합니다." }, { status: 401 });
-  try { const db = getDb(); await ensureGenderColumn(db); return Response.json({ reservations: await db.select().from(reservations).orderBy(reservations.createdAt) }); }
+  try { const db = getDb(); await ensureGenderColumn(db); await ensureProgressColumn(db); return Response.json({ reservations: await db.select().from(reservations).orderBy(reservations.createdAt) }); }
   catch (error) { return Response.json({ error: message(error) }, { status: 500 }); }
 }
 
@@ -23,7 +24,7 @@ export async function POST(request: Request) {
     if (!slot) return Response.json({ error: "선택한 세션을 찾을 수 없습니다." }, { status: 400 });
     const values = { parentName: String(body.parentName ?? "").trim(), phone: String(body.phone ?? "").trim(), childName: String(body.childName ?? "").trim(), childAge: String(body.childAge ?? "").trim(), childGender: String(body.childGender ?? "").trim(), childYear: String(body.childYear ?? "").trim(), attendees: Math.max(1, Math.min(slot.capacity, Number(body.attendees ?? 1))) };
     if (Object.values(values).some((value) => value === "")) return Response.json({ error: "모든 항목을 입력해주세요." }, { status: 400 });
-    const db = getDb(); await ensureGenderColumn(db);
+    const db = getDb(); await ensureGenderColumn(db); await ensureProgressColumn(db);
     const [current] = await db.select({ total: count() }).from(reservations).where(and(eq(reservations.slotId, slot.id), eq(reservations.status, "confirmed")));
     if (Number(current?.total ?? 0) + values.attendees > slot.capacity) return Response.json({ error: "방금 예약이 마감되었습니다. 다른 시간을 선택해주세요." }, { status: 409 });
     const code = `NYE-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;

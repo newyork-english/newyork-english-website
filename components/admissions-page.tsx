@@ -5,7 +5,20 @@ import { ArrowUpRight, Check, X } from "lucide-react";
 import { AdmissionsHome } from "@/components/admissions-home";
 import { sessions, slots, type Slot } from "@/lib/schedule";
 
-type Reservation = { id?: number; code: string; slotId: string; parentName: string; phone: string; childName: string; childAge: string; childGender?: string; childYear: string; attendees: number; status: string; date?: string; time?: string; track?: string; sessionId?: string };
+import { reservationProgressOptions } from '@/lib/reservation-progress';
+
+type Reservation = { id?: number; code: string; slotId: string; parentName: string; phone: string; childName: string; childAge: string; childGender?: string; childYear: string; attendees: number; status: string; date?: string; time?: string; track?: string; sessionId?: string; createdAt?: string; progress?: string };
+function formatRequestedAt(value?: string) {
+  if (!value) return '기록 없음';
+  const normalized = value.replace(' ', 'T');
+  const timestamp = new Date(/(?:Z|[+-]\d{2}:?\d{2})$/i.test(normalized) ? normalized : normalized + 'Z');
+  if (Number.isNaN(timestamp.getTime())) return '기록 없음';
+  return new Intl.DateTimeFormat('ko-KR', {
+    timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
+  }).format(timestamp);
+}
+
 const logo = <img className="header-logo" src="/new-york-english-logo-transparent.png" alt="New York English" />;
 
 function SlotPicker({ value, onChange, requestedSession }: { value: Slot | null; onChange: (slot: Slot | null) => void; requestedSession: string }) {
@@ -77,6 +90,17 @@ export function HomePage() {
 }
 
 export function AdminPage() {
+  const [savingId, setSavingId] = useState<number | null>(null);
+  async function changeProgress(id: number | undefined, progress: string) {
+    if (!id) return;
+    setSavingId(id); setError("");
+    try {
+      const response = await fetch(`/api/reservations/${id}`, { method: "PATCH", headers: { "content-type": "application/json", "x-admin-password": password }, body: JSON.stringify({ progress }) });
+      const payload = await response.json() as { error?: string; reservation: Reservation };
+      if (!response.ok) throw new Error(payload.error || "상태 저장에 실패했습니다.");
+      setRows((current) => current.map((row) => row.id === id ? payload.reservation : row));
+    } catch (cause) { setError(cause instanceof Error ? cause.message : "상태 저장에 실패했습니다."); } finally { setSavingId(null); }
+  }
   const [password, setPassword] = useState(""); const [authorized, setAuthorized] = useState(false); const [rows, setRows] = useState<Reservation[]>([]); const [error, setError] = useState(""); const [loaded, setLoaded] = useState(false); const [sessionFilter, setSessionFilter] = useState("all"); const [dateFilter, setDateFilter] = useState("all");
   async function load() { try { const response = await fetch("/api/reservations", { headers: { "x-admin-password": password } }); const payload = await response.json() as { error?: string; reservation: Reservation; reservations: Reservation[] }; if (!response.ok) throw new Error(payload.error); setRows(payload.reservations); setLoaded(true); setAuthorized(true); setError(""); } catch (cause) { setError(cause instanceof Error ? cause.message : "예약 목록을 불러오지 못했습니다."); } }
   async function unlock(event: React.FormEvent) { event.preventDefault(); await load(); }
@@ -86,7 +110,7 @@ export function AdminPage() {
   const totalAttendees = confirmedRows.reduce((total, row) => total + Number(row.attendees || 0), 0);
   const dateSummary = Array.from(new Set(rows.map((row) => row.date).filter(Boolean))).map((date) => { const dateRows = confirmedRows.filter((row) => row.date === date); return { date, reservations: dateRows.length, attendees: dateRows.reduce((total, row) => total + Number(row.attendees || 0), 0) }; });
   if (!authorized) return <main className="admin-page"><header className="admin-header">{logo}<span>예약 관리</span></header><section className="admin-shell admin-login"><div className="section-label">Private admin</div><h1>관리자 확인</h1><p>예약 정보를 확인하려면 관리자 비밀번호를 입력해주세요.</p><form onSubmit={unlock} className="admin-login-form"><label htmlFor="admin-password">비밀번호<input id="admin-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoFocus /></label><button className="primary-button" type="submit">관리자 페이지 열기</button></form>{error && <p className="form-error">{error}</p>}</section></main>;
-  return <main className="admin-page"><header className="admin-header">{logo}<span>예약 관리</span></header><section className="admin-shell"><div className="section-label">Private admin</div><h1>입학 설명회 예약 목록</h1><p>비공개 관리자 화면입니다. 운영팀에서 예약 상태와 참석 인원을 확인하세요.</p><button className="primary-button" onClick={load}>{loaded ? "새로고침" : "예약 목록 불러오기"}</button>{error && <p className="form-error">{error}</p>}{loaded && <><div className="admin-stats"><div><span>확정 예약</span><strong>{confirmedRows.length}건</strong></div><div><span>총 신청 인원</span><strong>{totalAttendees}명</strong></div><div><span>취소 예약</span><strong>{rows.filter((row) => row.status === "cancelled").length}건</strong></div></div><div className="admin-filters"><label>연차별 보기<select value={sessionFilter} onChange={(event) => setSessionFilter(event.target.value)}><option value="all">전체 연차</option><option value="5-1">5세 · 1년차</option><option value="6-1">6세 · 1년차</option><option value="7-1">7세 · 1년차</option><option value="6-2">6세 · 2년차</option><option value="7-2">7세 · 2년차</option><option value="7-3">7세 · 3년차</option><option value="sibling">재원생 동생</option></select></label><label>날짜별 보기<select value={dateFilter} onChange={(event) => setDateFilter(event.target.value)}><option value="all">전체 날짜</option>{Array.from(new Set(rows.map((row) => row.date).filter(Boolean))).map((date) => <option key={date} value={date}>{date}</option>)}</select></label></div><div className="admin-date-summary"><h2>날짜별 예약 현황</h2><div>{dateSummary.map((item) => <span key={item.date}>{item.date}<strong>{item.reservations}건 · {item.attendees}명</strong></span>)}</div></div><div className="admin-table-wrap"><table><thead><tr><th>일정</th><th>세션</th><th>보호자 / 자녀</th><th>연락처</th><th>인원</th><th>상태</th><th /></tr></thead><tbody>{filteredRows.map((row) => <tr key={row.id}><td>{row.date}<br />{row.time}</td><td>{row.track}<br /><strong>{row.sessionId}</strong></td><td>{row.parentName}<br />{row.childName} · {row.childAge} · {row.childGender || '성별 미입력'}</td><td>{row.phone}</td><td>{row.attendees}명</td><td><span className={`status ${row.status}`}>{row.status === "confirmed" ? "예약 완료" : "취소"}</span></td><td>{row.status === "confirmed" && <button className="small-button" onClick={() => cancel(row.id)}>취소 처리</button>}</td></tr>)}</tbody></table>{filteredRows.length === 0 && <p className="empty-state">조건에 맞는 예약이 없습니다.</p>}</div></>}</section></main>;
+  return <main className="admin-page"><header className="admin-header">{logo}<span>예약 관리</span></header><section className="admin-shell"><div className="section-label">Private admin</div><h1>입학 설명회 예약 목록</h1><p>비공개 관리자 화면입니다. 운영팀에서 예약 상태와 참석 인원을 확인하세요.</p><button className="primary-button" onClick={load}>{loaded ? "새로고침" : "예약 목록 불러오기"}</button>{error && <p className="form-error">{error}</p>}{loaded && <><div className="admin-stats"><div><span>확정 예약</span><strong>{confirmedRows.length}건</strong></div><div><span>총 신청 인원</span><strong>{totalAttendees}명</strong></div><div><span>취소 예약</span><strong>{rows.filter((row) => row.status === "cancelled").length}건</strong></div></div><div className="admin-filters"><label>연차별 보기<select value={sessionFilter} onChange={(event) => setSessionFilter(event.target.value)}><option value="all">전체 연차</option><option value="5-1">5세 · 1년차</option><option value="6-1">6세 · 1년차</option><option value="7-1">7세 · 1년차</option><option value="6-2">6세 · 2년차</option><option value="7-2">7세 · 2년차</option><option value="7-3">7세 · 3년차</option><option value="sibling">재원생 동생</option></select></label><label>날짜별 보기<select value={dateFilter} onChange={(event) => setDateFilter(event.target.value)}><option value="all">전체 날짜</option>{Array.from(new Set(rows.map((row) => row.date).filter(Boolean))).map((date) => <option key={date} value={date}>{date}</option>)}</select></label></div><div className="admin-date-summary"><h2>날짜별 예약 현황</h2><div>{dateSummary.map((item) => <span key={item.date}>{item.date}<strong>{item.reservations}건 · {item.attendees}명</strong></span>)}</div></div><div className="admin-table-wrap"><table><thead><tr><th>신청 일시 (한국 시간)</th><th>일정</th><th>세션</th><th>보호자 / 자녀</th><th>연락처</th><th>인원</th><th>상태</th><th /></tr></thead><tbody>{filteredRows.map((row) => <tr key={row.id}><td>{formatRequestedAt(row.createdAt)}</td><td>{row.date}<br />{row.time}</td><td>{row.track}<br /><strong>{row.sessionId}</strong></td><td>{row.parentName}<br />{row.childName} · {row.childAge} · {row.childGender || '성별 미입력'}</td><td>{row.phone}</td><td>{row.attendees}명</td><td>{row.status === 'cancelled' ? <span className="status cancelled">취소완료</span> : <select aria-label={row.childName + ' 예약 진행 상태'} value={row.progress || 'reserved'} disabled={savingId !== null} onChange={(event) => changeProgress(row.id, event.target.value)}>{reservationProgressOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select>}</td><td>{row.status === "confirmed" && <button className="small-button" disabled={savingId !== null} onClick={() => cancel(row.id)}>취소 처리</button>}</td></tr>)}</tbody></table>{filteredRows.length === 0 && <p className="empty-state">조건에 맞는 예약이 없습니다.</p>}</div></>}</section></main>;
 }
 
 export default HomePage;
