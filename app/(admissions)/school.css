@@ -155,7 +155,9 @@
 .school-closing .school-label { display: block; color: var(--accent-light); font-size: 10px; }
 .school-closing h2 { color: white; font-size: clamp(34px,4vw,54px); }
 .school-closing h2 em { color: var(--accent-light); }
-.school-closing .school-button { margin-top: 32px; }
+.school-closing-actions { display: grid; gap: 12px; width: min(280px, calc(100% - 40px)); margin: 32px auto 0; }
+.school-closing-actions .school-button { width: 100%; box-sizing: border-box; }
+.school-phone-number { margin-top: 20px !important; color: var(--on-forest-muted); font-size: 18px; }
 .school-button-light { background: var(--paper); color: var(--forest-deep); }
 .school-button-light:hover { background: var(--forest-soft); }
 .school-mobile-break { display: none; }
