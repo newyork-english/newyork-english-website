@@ -2,8 +2,9 @@
 .school-site { overflow: clip; color: var(--ink); background: var(--paper); }
 .school-site :where(h1,h2,h3,p,figure) { margin: 0; }
 .school-site p { word-break: keep-all; overflow-wrap: anywhere; }
-.school-site :where(h1,h2,h3) { font-weight: 400; letter-spacing: -.045em; }
-.school-site h2 { color: var(--forest-deep); font: 400 clamp(30px,3.3vw,48px)/1.38 var(--font-body); letter-spacing: -.065em; }
+.school-site :where(h1,h2,h3) { font-family: var(--font-display); font-weight: 400; letter-spacing: -.045em; }
+.school-site em,h1 em,h2 em,h3 em { font-style: normal; }
+.school-site h2 { color: var(--forest-deep); font: 400 clamp(30px,3.3vw,48px)/1.45 var(--font-display); letter-spacing: -.045em; word-break: keep-all; }
 .school-site h2 em { color: var(--forest); font-style: normal; }
 .school-wrap { width: min(1280px,calc(100% - 112px)); margin-inline: auto; }
 .school-section { padding-block: 112px; }
@@ -18,10 +19,11 @@
 .school-menu { display: none; border: 0; background: transparent; color: var(--forest); padding: 10px; }
 .skip-link { position: fixed; top: -100px; left: 20px; padding: 12px 20px; background: var(--forest); color: white; z-index: 100; }
 .skip-link:focus { top: 12px; }
+.school-hero-banner { background: var(--forest-deep); color: var(--paper); }
 .school-hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 8%; padding-block: 68px 62px; align-items: center; }
 .school-wordmark { font: 400 clamp(58px,7vw,100px)/.96 var(--font-display); letter-spacing: -.06em; color: var(--forest-deep); margin-bottom: 28px !important; }
 .school-wordmark em { font-weight: 400; color: var(--forest); }
-.school-hero h1 { color: var(--forest-deep); font: 500 clamp(30px,3.2vw,44px)/1.35 var(--font-body); letter-spacing: -.06em; }
+.school-hero h1 { color: var(--forest-deep); font: 400 clamp(30px,3.2vw,44px)/1.4 var(--font-display); letter-spacing: -.045em; }
 .school-lead { margin-block: 24px 30px !important; color: var(--muted); font-size: 16px; line-height: 1.85; }
 .school-button { min-height: 52px; padding: 14px 22px; display: inline-flex; align-items: center; justify-content: space-between; gap: 36px; color: white; background: var(--forest); font-size: 14px; font-weight: 700; transition: background .2s; }
 .school-button:hover,.school-header-cta:hover { background: var(--forest-deep); }
@@ -29,8 +31,13 @@
 .school-hero-note span:first-child { color: var(--forest); font-size: 10px; letter-spacing: .15em; padding-right: 18px; border-right: 1px solid var(--line); }
 .school-image { width: 100%; overflow: hidden; background: #dbe4dc; }
 .school-image > img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.school-hero-visual .school-image { aspect-ratio: 4/5; max-height: 620px; }
-.school-image-caption { display: flex; justify-content: space-between; gap: 12px; padding-top: 14px; color: var(--muted); font-size: 9px; letter-spacing: .13em; }
+.school-hero .school-wordmark,.school-hero h1 { color: var(--paper); }
+.school-hero .school-wordmark em,.school-hero .school-label { color: var(--accent-light); }
+.school-hero .school-lead,.school-hero .school-hero-note,.school-hero-note span:first-child { color: var(--on-forest-muted); }
+.school-hero .school-button { background: var(--paper); color: var(--forest-deep); }
+.school-hero .school-button:hover { background: var(--forest-soft); }
+.school-hero-seal { width: min(100%,420px); margin-inline: auto; }
+.school-hero-seal img { display: block; width: 100%; height: auto; filter: brightness(0) invert(1); opacity: .9; }
 .photo-mock { height: 100%; min-height: 240px; display: flex; flex-direction: column; justify-content: space-between; padding: 24px; color: var(--forest-deep); background: #dce5dd; }
 .photo-mock-reading { background: #e5e5db; }
 .photo-mock-materials { background: #d0ddd5; }
@@ -65,15 +72,22 @@
 .school-session-card p { font-size: 14px; color: var(--muted); line-height: 1.85; }
 .school-session-card .school-audience { color: var(--forest); font-size: 13px; font-weight: 700; margin-bottom: 10px; }
 .school-session-card .school-link { margin-top: auto; padding-top: 26px; justify-content: space-between; }
-.school-curriculum { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); }
-.school-course { padding: 36px; display: flex; flex-direction: column; }
-.school-course:first-child { border-right: 1px solid var(--line); background: var(--forest-soft); }
-.school-course-heading > span { font-size: 10px; letter-spacing: .12em; color: var(--forest); }
-.school-course-heading h3 { font: 400 clamp(28px,3vw,40px)/1.12 var(--font-display); color: var(--forest-deep); margin-block: 24px 18px; }
-.school-course-heading p { color: var(--muted); font-size: 14px; }
-.school-course ul { list-style: none; padding: 0; margin: 28px 0 0; }
-.school-course li { border-top: 1px solid var(--line); padding: 12px 0; font-size: 14px; display: flex; gap: 18px; color: var(--forest-deep); }
-.school-course li span { color: var(--muted); font-size: 11px; }
+.school-curriculum { display: grid; gap: 24px; }
+.curriculum-flow { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 32px; list-style: none; margin: 0; padding: 0; }
+.curriculum-step { position: relative; padding: 28px 22px; border: 1px solid var(--line); min-width: 0; background: var(--forest-soft); }
+.curriculum-step-1 { background: var(--paper); }
+.curriculum-step-3 { background: var(--forest-deep); color: white; border-color: var(--forest-deep); }
+.curriculum-step-label { display: flex; align-items: center; gap: 12px; color: var(--forest); font-size: 10px; letter-spacing: .12em; margin-bottom: 28px !important; }
+.curriculum-step h3 { color: var(--forest-deep); font: 400 clamp(23px,2.1vw,30px)/1.25 var(--font-display); margin-bottom: 20px; }
+.curriculum-step-description { color: var(--muted); font-size: 14px; line-height: 1.8; }
+.curriculum-step-3 :is(h3,.curriculum-step-label) { color: var(--paper); }
+.curriculum-step-3 .curriculum-step-description { color: var(--on-forest-muted); }
+.curriculum-modules { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 12px; }
+.curriculum-modules li { border-left: 2px solid #91af9b; padding-left: 10px; color: var(--forest-deep); font-size: 13px; line-height: 1.55; }
+.curriculum-connector { position: absolute; right: -30px; top: 50%; width: 26px; color: #658a77; transform: translateY(-50%); }
+.curriculum-connector svg { width: 100%; }
+.curriculum-progression { display: flex; justify-content: center; align-items: center; gap: 24px; margin-top: 20px !important; padding: 22px 16px; background: #eef0ed; color: var(--forest); font: 700 11px/1.6 var(--font-body); letter-spacing: .12em; }
+.curriculum-progression svg { flex-shrink: 0; }
 .school-dictionary { grid-column: 1/-1; text-align: center; background: var(--forest-deep); color: white; padding: 32px 24px; }
 .school-dictionary > span { color: var(--accent-light); font-size: 10px; letter-spacing: .15em; }
 .school-dictionary h3 { font: 400 clamp(30px,3vw,42px)/1.25 var(--font-display); margin-block: 10px; }
@@ -87,7 +101,7 @@
 .school-materials { margin-top: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 7%; align-items: center; }
 .school-materials .school-image { aspect-ratio: 16/9; }
 .school-materials .school-image:has(.photo-mock) { min-height: 300px; }
-.school-materials h3 { font-size: 28px; line-height: 1.5; color: var(--forest-deep); margin-bottom: 20px; }
+.school-materials h3 { font: 400 28px/1.5 var(--font-display); color: var(--forest-deep); margin-bottom: 20px; }
 .school-materials p:not(.school-label) { color: var(--muted); font-size: 15px; }
 .school-director { background: var(--forest-deep); color: var(--on-forest-muted); }
 .school-director-grid { display: grid; grid-template-columns: 300px 1fr; align-items: center; gap: 12%; max-width: 1100px; }
@@ -97,7 +111,7 @@
 .school-portrait { width: 100%; aspect-ratio: 3/4; overflow: hidden; background: #e8c6a7; }
 .school-portrait img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 58% 32%; transform: scale(1.18); }
 .school-director figcaption { display: flex; justify-content: space-between; align-items: center; gap: 12px; border-top: 1px solid #486d5d; margin-top: 20px; padding-top: 16px; }
-.school-director figcaption strong { font: italic 28px var(--font-display); color: white; }
+.school-director figcaption strong { font: 400 28px var(--font-display); color: white; }
 .school-director figcaption span { font-size: 9px; }
 .school-director p:not(.school-label) { font-size: 15px; line-height: 1.95; margin-top: 20px; }
 .school-director .school-director-intro { font-size: 18px !important; color: white; margin-top: 30px !important; }
@@ -121,7 +135,7 @@
 .school-before > a { display: flex; align-items: center; gap: 12px; margin-top: 28px; color: var(--forest); font-size: 13px; }
 .school-before > a strong { font: 23px var(--font-display); }
 .school-booking-panel { background: var(--paper); padding: 32px; border: 1px solid var(--line); min-width: 0; }
-.school-booking-panel > h3 { font: 400 23px/1.4 var(--font-body); margin-bottom: 28px; }
+.school-booking-panel > h3 { font: 400 23px/1.4 var(--font-display); margin-bottom: 28px; }
 .school-booking-panel .school-label { margin-bottom: 12px !important; }
 .school-booking-panel .track-toggle { margin-bottom: 22px; }
 .school-booking-panel .track-note { font-size: 14px; margin-bottom: 22px; color: var(--muted); }
@@ -147,6 +161,8 @@
 .availability-message { padding: 14px; border: 1px solid var(--line); color: var(--muted); font-size: 14px; margin-bottom: 20px !important; }
 
 @media (max-width: 1050px) {
+  .curriculum-flow { grid-template-columns: 1fr; gap: 40px; }
+  .curriculum-connector { top: auto; right: auto; bottom: -34px; left: calc(50% - 13px); transform: rotate(90deg); }
   .school-wrap { width: calc(100% - 64px); }
   .school-nav { gap: 22px; }
   .school-hero { gap: 5%; }
@@ -174,7 +190,7 @@
   .school-hero .school-button { gap: 12px; padding: 12px; font-size: 12px; }
   .school-hero-note { flex-direction: column; align-items: start; gap: 8px; font-size: 11px; }
   .school-hero-note span:first-child { border: 0; }
-  .school-hero-visual .school-image { min-height: 400px; }
+  .school-hero-seal { width: min(100%,280px); }
   .mock-top,.mock-bottom { flex-direction: column; gap: 8px; }
   .mock-bottom > span { align-self: start; }
   .photo-mock { padding: 18px; }
@@ -186,7 +202,11 @@
   .school-philosophy-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
   .school-philosophy-text { margin: 0; }
   .school-session-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .school-course { padding: 24px; }
+  .curriculum-flow { grid-template-columns: 1fr; gap: 40px; }
+  .curriculum-step { padding: 28px; }
+  .curriculum-step h3 { font-size: 28px; }
+  .curriculum-step-label { margin-bottom: 18px !important; }
+  .curriculum-connector { top: auto; right: auto; bottom: -34px; left: calc(50% - 13px); transform: rotate(90deg); }
   .school-stages { grid-template-columns: repeat(3,1fr); }
   .school-stages li { border-bottom: 1px solid var(--line); }
   .school-materials { grid-template-columns: 1fr; gap: 32px; }
@@ -204,8 +224,7 @@
   .school-hero .school-button { font-size: 14px; padding: 14px 20px; gap: 32px; }
   .school-hero .school-lead { font-size: 16px; }
   .school-hero-note { flex-direction: row; align-items: center; gap: 16px; }
-  .school-hero-visual .school-image { aspect-ratio: 4/3; min-height: 0; }
-  .school-image-caption { font-size: 8px; }
+  .school-hero-seal { width: 180px; margin-block: 4px 8px; }
   .school-label { font-size: 9px; margin-bottom: 18px !important; }
   .school-site h2 { font-size: clamp(22px,6.4vw,32px); letter-spacing: -.065em; }
   .school-philosophy-detail { grid-template-columns: 1fr; gap: 24px; }
@@ -214,8 +233,8 @@
   .school-session-card { padding: 24px; }
   .school-session-top { margin-bottom: 20px; }
   .school-session-card h3 { font-size: 29px; }
-  .school-curriculum { grid-template-columns: 1fr; }
-  .school-course:first-child { border-right: 0; border-bottom: 1px solid var(--line); }
+  .curriculum-step { padding: 24px; }
+  .curriculum-progression { gap: 8px; font-size: 9px; letter-spacing: .02em; padding-inline: 10px; }
   .school-dictionary { text-align: left; padding: 26px 24px; }
   .school-dictionary h3 { font-size: 30px; }
   .school-dictionary > span { font-size: 9px; }

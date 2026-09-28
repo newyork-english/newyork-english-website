@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from 'react';
-import { ArrowUpRight, ArrowDown, Plus, Menu, X } from 'lucide-react';
+import { ArrowUpRight, ArrowDown, ArrowRight, Plus, Menu, X } from 'lucide-react';
 import { sessions } from '@/lib/schedule';
 import { siteImages } from '@/lib/site-images';
 
@@ -16,6 +16,13 @@ function SchoolImage({ name, className = '' }: { name: keyof typeof siteImages; 
       </div>}
   </figure>;
 }
+
+const courses = [
+  { phase: 'SOUND', title: 'New York Phonics', text: '소리와 글자를 연결하며 읽기의 첫 기반을 쌓습니다.', modules: [] },
+  { phase: 'BUILD', title: 'New York Wonder How', text: '어휘와 읽기를 문장과 언어의 구조로 확장합니다.', modules: ['Wonder How Voca', 'Wonder How Reading', 'Wonder How Grammar'] },
+  { phase: 'UNDERSTAND', title: 'Wonders', text: '미국 교과서의 다양한 글을 읽으며 이해와 사고의 폭을 넓힙니다.', modules: [] },
+  { phase: 'EXPRESS', title: 'New York Wonder Why', text: '이해한 영어를 자신의 생각과 글로 표현합니다.', modules: ['Wonder Why Voca', 'Wonder Why Reading', 'Wonder Why Grammar', 'Wonder Why Writing'] },
+];
 
 const agenda = [
   ['교육 철학', '단순히 영어 100% 환경에 노출되는 것을 넘어, 듣고 이해하고 읽고 말하고 쓰는 힘을 어떻게 연결하는지 설명드립니다.'],
@@ -46,7 +53,7 @@ export function AdmissionsHome({ reservation, onSession }: { reservation: ReactN
     </header>
 
     <main id="main-content">
-      <section className="school-hero school-wrap">
+      <section className="school-hero-banner"><div className="school-hero school-wrap">
         <div className="school-hero-copy">
           <p className="school-label"><span className="school-label-line" />2027 ADMISSIONS</p>
           <p className="school-wordmark">New York<br /><em>English.</em></p>
@@ -55,8 +62,8 @@ export function AdmissionsHome({ reservation, onSession }: { reservation: ReactN
           <a className="school-button" href="#sessions">우리 아이에게 맞는 세션 <ArrowUpRight size={18} /></a>
           <div className="school-hero-note"><span>AGES 5–7</span><span>연령 · 연차별 사전 예약제</span></div>
         </div>
-        <div className="school-hero-visual"><SchoolImage name="classroom" /><div className="school-image-caption"><span>A PLACE TO BEGIN.</span><span>A WORLD TO GROW.</span></div></div>
-      </section>
+        <div className="school-hero-seal"><img src="/new-york-english-logo-transparent.png" alt="New York English 공식 로고" fetchPriority="high" /></div>
+      </div></section>
 
       <div className="school-facts school-wrap" aria-label="교육의 기준"><p><strong>12</strong><span>년의 영어교육 경험</span></p><p><strong>6</strong><span>개의 연령·연차별 세션</span></p><p><strong>One journey.</strong><span>유치부에서 초등부까지</span></p><a href="#philosophy" aria-label="교육 철학 보기"><ArrowDown size={22} /></a></div>
 
@@ -77,11 +84,15 @@ export function AdmissionsHome({ reservation, onSession }: { reservation: ReactN
       <section className="school-section school-wrap" id="curriculum">
         <div className="school-heading-row"><div><p className="school-label">03 / CONNECTED CURRICULUM</p><h2>차곡차곡 쌓이고,<br /><em>다음 배움으로 이어지는 영어.</em></h2></div><p>미국 교과서 Wonders와 자체 교재.<br />각 교재와 영역이 어떻게 연결되고 확장되는지 소개합니다.</p></div>
         <div className="school-curriculum">
-          <div className="school-course"><div className="school-course-heading"><span>01 / SOUND & LANGUAGE</span><h3>New York Phonics<br />& Wonder How</h3><p>소리와 읽기의 기반에서 언어의 구조로.</p></div><ul>{['Wonder How Voca', 'Wonder How Reading', 'Wonder How Grammar'].map((x, i) => <li key={x}><span>0{i + 1}</span>{x}</li>)}</ul></div>
-          <div className="school-course"><div className="school-course-heading"><span>02 / UNDERSTANDING & EXPRESSION</span><h3>Wonders<br />& Wonder Why</h3><p>미국 교과서 기반의 이해에서 사고와 표현으로.</p></div><ul>{['Wonder Why Voca', 'Wonder Why Reading', 'Wonder Why Grammar', 'Wonder Why Writing'].map((x, i) => <li key={x}><span>0{i + 1}</span>{x}</li>)}</ul></div>
+          <ol className="curriculum-flow" aria-label="교재와 학습 영역의 연결 흐름">{courses.map((course, index) => <li className={`curriculum-step curriculum-step-${index + 1}`} key={course.phase}>
+            <p className="curriculum-step-label"><span>0{index + 1}</span>{course.phase}</p>
+            <h3>{course.title}</h3><p className="curriculum-step-description">{course.text}</p>
+            {course.modules.length > 0 && <ul className="curriculum-modules">{course.modules.map(module => <li key={module}>{module}</li>)}</ul>}
+            {index < courses.length - 1 && <span className="curriculum-connector" aria-hidden="true"><ArrowRight strokeWidth={1.25} /></span>}
+          </li>)}</ol>
           <div className="school-dictionary"><span>CORE FOUNDATION · ALL STAGES</span><h3>New York Dictionary</h3><p>500개 주제 · 약 6,000개 실용 어휘로 쌓는 전 과정 공통 어휘 기반</p></div>
         </div>
-        <ol className="school-stages">{[['FOUNDATION','어휘 · 소리'],['STRUCTURE','문장 · 문법'],['EXPANSION','읽기 · 이해'],['APPLICATION','사고 · 표현'],['EXPRESSION','쓰기 · 완성']].map(([name, desc], i) => <li key={name}><span>0{i + 1}</span><strong>{name}</strong><small>{desc}</small></li>)}</ol>
+        <p className="curriculum-progression"><span>FOUNDATION</span><ArrowRight size={16} aria-hidden="true" /><span>EXPANSION</span><ArrowRight size={16} aria-hidden="true" /><span>APPLICATION</span></p>
         <div className="school-materials"><SchoolImage name="materials" /><div><p className="school-label">BEYOND THE CLASSROOM</p><h3>오늘의 배움이<br />내일의 자신감이 되도록.</h3><p>유치부에서 만들어진 영어의 기반을 초등부의 읽기, 사고, 표현으로 이어갑니다. 아이의 시작점부터 다음 단계까지, 장기적인 영어 성장 로드맵을 함께 그립니다.</p></div></div>
       </section>
 

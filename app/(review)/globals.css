@@ -111,6 +111,6 @@
 .action { min-height:76px; }
 .home-card a,.guide-shell a { text-decoration:none; }
 .home-return { display:inline-block; margin-top:24px; color:var(--forest); font-size:14px; }
-.home-copy h1 { font-family:var(--font-body); font-size:clamp(24px,6.3vw,36px); line-height:1.5; word-break:keep-all; }
-.guide-hero h1,.section-heading h2,.benefit-card h2,.submit-card h2 { font-family:var(--font-body); word-break:keep-all; }
+.home-copy h1 { font-family:var(--font-display); font-size:clamp(24px,6.3vw,36px); line-height:1.5; word-break:keep-all; }
+.guide-hero h1,.section-heading h2,.benefit-card h2,.submit-card h2 { font-family:var(--font-display); word-break:keep-all; }
 .home-orbit { display:none; }

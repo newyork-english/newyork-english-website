@@ -12,7 +12,7 @@
   --on-forest-muted: #d5e3d8;
   --accent-light: #b6d6c1;
   --font-body: Arial, 'Noto Sans KR', sans-serif;
-  --font-display: Georgia, 'Times New Roman', serif;
+  --font-display: 'Noto Serif KR', 'Nanum Myeongjo', 'Batang', '바탕', 'AppleMyungjo', Georgia, serif;
   --radius-control: 0px;
   --radius-card: 0px;
   --shadow-card: none;
