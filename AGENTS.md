@@ -1,5 +1,10 @@
 # Project Instructions
 
+## Design
+
+- Follow `design.md` for all visual changes.
+- Shared brand tokens belong in `app/theme.css`; preserve route-specific layout styles.
+
 ## Upload and deployment requests
 
 - When the user asks to "업로드해줘" (upload the work), review the current changes, run relevant checks when practical, create an appropriate Git commit, and push it to the configured remote repository.

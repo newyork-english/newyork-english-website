@@ -2,11 +2,11 @@ export type Session = { id: string; eyebrow: string; title: string; audience: st
 export type Slot = { id: string; date: string; dateLabel: string; weekday: string; time: string; track: "재원생 동생" | "신규생"; capacity: number; sessionId: string };
 
 export const sessions: Session[] = [
-  { id: "5-1", eyebrow: "5세 · 1년차", title: "첫 영어를 시작하는 아이", audience: "5세에 영어를 처음 시작하는 아이", description: "5세는 영어를 ‘공부’로 느끼기보다 하나의 언어로 자연스럽게 받아들이기 시작하기에 가장 좋은 시기입니다. 영어의 소리와 표현을 충분히 경험하며 Phonics, Reading, Speaking의 기초를 탄탄하게 쌓고, 6세와 7세의 확장으로 이어지는 첫 기반을 설계합니다." },
-  { id: "6-1", eyebrow: "6세 · 1년차", title: "처음 시작하는 6세", audience: "6세에 영어를 처음 시작하는 아이", description: "유아기의 자연스러운 언어 경험에서 한 단계 나아가 영어를 본격적인 학습으로 확장하는 시기입니다.\n듣고 말하는 힘을 바탕으로 Phonics, Reading, Speaking의 기초를 빠르게 연결합니다." },
-  { id: "7-1", eyebrow: "7세 · 1년차", title: "초등 전 마지막 시작점", audience: "7세에 영어를 처음 시작하는 아이", description: "초등학생이 되기 전, 유아 언어 학습의 황금기를 온전히 활용할 수 있는 소중한 1년입니다.\nReading, Speaking, Vocabulary를 중심으로 영어의 핵심 기반을 집중적으로 쌓아 초등 과정으로 자연스럽게 이어갑니다." },
-  { id: "6-2", eyebrow: "6세 · 2년차", title: "기초를 확장하는 시기", audience: "5세부터 영어 학습을 시작한 아이", description: "5세 1년차에 쌓은 영어의 소리와 기초를 바탕으로 Speaking, Vocabulary, Writing을 넓혀가는 시기입니다. 익숙해진 언어를 자기 표현으로 연결해갑니다." },
-  { id: "7-2", eyebrow: "7세 · 2년차", title: "언어의 폭을 넓히는 시기", audience: "6세부터 영어 학습을 시작한 아이", description: "6세 1년차에 배운 기초 Reading과 언어 이해를 바탕으로 Speaking, Vocabulary, Grammar, Writing을 확장합니다. 이해한 영어를 더 정확하고 풍부하게 사용하는 단계입니다." },
+  { id: "5-1", eyebrow: "5세 · 1년차", title: "첫 영어를 시작하는 아이", audience: "5세에 영어를 처음 시작하는 아이", description: "5세는 영어를 ‘공부’로 느끼기보다 하나의 언어로 자연스럽게 받아들이기 시작하기에 가장 좋은 시기. 영어의 소리와 표현을 충분히 경험하며 영어학습여정의 첫 기반을 설계합니다." },
+  { id: "6-1", eyebrow: "6세 · 1년차", title: "처음 시작하는 6세", audience: "6세에 영어를 처음 시작하는 아이", description: "유아기의 자연스러운 언어 경험에서 한 단계 나아가 영어를 본격적인 학습으로 확장하는 시기. 듣고 말하는 힘을 바탕으로 영어 기초를 빠르게 연결합니다." },
+  { id: "6-2", eyebrow: "6세 · 2년차", title: "기초를 확장하는 시기", audience: "5세부터 영어 학습을 시작한 아이", description: "5세 1년차에 쌓은 영어의 소리와 기초를 바탕으로 Speaking, Vocabulary, Writing을 넓혀가는 시기. 익숙해진 언어를 자기 표현으로 연결해갑니다." },
+  { id: "7-1", eyebrow: "7세 · 1년차", title: "초등 전 마지막 시작점", audience: "7세에 영어를 처음 시작하는 아이", description: "초등학생이 되기 전, 유아 언어 학습의 황금기를 온전히 활용할 수 있는 소중한 1년. Reading, Speaking, Vocabulary를 중심으로 영어의 핵심 기반을 집중적으로 쌓습니다." },
+  { id: "7-2", eyebrow: "7세 · 2년차", title: "언어의 폭을 넓히는 시기", audience: "6세부터 영어 학습을 시작한 아이", description: "6세 1년차에 배운 언어 이해를 바탕으로 Grammar, Writing을 확장하는 시기. 이해한 영어를 더 정확하고 풍부하게 사용하는 단계입니다." },
   { id: "7-3", eyebrow: "7세 · 3년차", title: "초등 과정으로 이어지는 시기", audience: "5세부터 영어 학습을 이어온 아이", description: "1·2년차 동안 차곡차곡 쌓아온 영어 기반이 꽃을 피우는 시기입니다. Reading Comprehension, Grammar, Writing을 심화하며 유치부의 성장을 초등 과정의 힘으로 연결합니다." },
 ];
 

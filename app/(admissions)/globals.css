@@ -1,13 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-
-:root { --green: #155b45; --green-deep: #0d3d31; --green-soft: #e9f0eb; --ink: #19211e; --cream: #f6f3ed; --paper: #fbfaf7; --line: #d8ded7; --muted: #66716c; --serif: Georgia, "Times New Roman", serif; --sans: Arial, "Noto Sans KR", sans-serif; }
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; overflow-x: hidden; }
-body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.7; overflow-x: hidden; }
-a { color: inherit; text-decoration: none; }
-button, input, select { font: inherit; }
-button { cursor: pointer; }
+@import "../theme.css";
 .site-header { height: 78px; padding: 0 5vw; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 20; background: rgba(251,250,247,.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--line); }
 .logo-link { display: block; }
 .header-logo { display: block; width: 60px; height: 60px; object-fit: contain; }

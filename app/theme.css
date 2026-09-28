@@ -1,0 +1,42 @@
+/* Shared brand foundation. See /design.md before changing these tokens. */
+:root {
+  --forest: #155b45;
+  --forest-deep: #0d3d31;
+  --forest-soft: #e9f0eb;
+  --ivory: #f6f3ed;
+  --paper: #fbfaf7;
+  --ink: #19211e;
+  --muted: #66716c;
+  --line: #d8ded7;
+  --on-forest: #ffffff;
+  --on-forest-muted: #d5e3d8;
+  --accent-light: #b6d6c1;
+  --font-body: Arial, 'Noto Sans KR', sans-serif;
+  --font-display: Georgia, 'Times New Roman', serif;
+  --radius-control: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-button: none;
+  --page-gutter: clamp(20px, 6vw, 96px);
+  --section-space: clamp(64px, 8vw, 112px);
+  /* Compatibility aliases for admissions components. */
+  --green: var(--forest);
+  --green-deep: var(--forest-deep);
+  --green-soft: var(--forest-soft);
+  --cream: var(--ivory);
+  --serif: var(--font-display);
+  --sans: var(--font-body);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.7 var(--font-body); }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+:where(a, button, input, select, textarea):focus-visible { outline: 3px solid #82a893; outline-offset: 4px; }
+:where(section[id]) { scroll-margin-top: 96px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

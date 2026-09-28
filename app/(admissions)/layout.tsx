@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import "./school.css";
 
 export const metadata: Metadata = {
   title: "2027학년도 New York English 입학 설명회",
