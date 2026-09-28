@@ -8,7 +8,7 @@ export default function Home() {
       <div className="home-orbit home-orbit-two" aria-hidden="true" />
       <section className="home-card" aria-labelledby="event-title">
         <header className="brand-lockup" aria-label="New York English">
-          <img src="/new-york-english-logo.png" alt="New York English 로고" />
+          <img src="/review-event/logo.png" alt="New York English 로고" />
         </header>
         <div className="home-copy">
           <p className="eyebrow">September Review Event</p>
@@ -21,7 +21,7 @@ export default function Home() {
           <span className="benefit-date">2026. 09. 01 — 09. 30</span>
         </div>
         <div className="home-actions">
-          <a className="action action-secondary" href="/guide">
+          <a className="action action-secondary" href="/review-event/guide">
             <BookOpenText aria-hidden="true" /><span><small>자세히 알아보기</small>이벤트 참여 방법</span><ArrowRight aria-hidden="true" />
           </a>
           <a className="action action-primary" href={REVIEW_URL} target="_blank" rel="noreferrer">

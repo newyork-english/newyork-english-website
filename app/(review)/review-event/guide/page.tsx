@@ -9,8 +9,8 @@ export default function GuidePage() {
   return (
     <main className="guide-shell">
       <div className="guide-topbar">
-        <a href="/" className="back-link" aria-label="이벤트 홈으로 돌아가기"><ArrowLeft aria-hidden="true" />돌아가기</a>
-        <img className="guide-brand" src="/new-york-english-logo.png" alt="New York English 로고" />
+        <a href="/review-event" className="back-link" aria-label="이벤트 홈으로 돌아가기"><ArrowLeft aria-hidden="true" />돌아가기</a>
+        <img className="guide-brand" src="/review-event/logo.png" alt="New York English 로고" />
       </div>
       <article className="guide-article">
         <header className="guide-hero">

@@ -2,3 +2,10 @@ node_modules/
 .pnpm-store/
 dist/
 .vinext/
+.next/
+.wrangler/
+.env*
+.dev.vars*
+!.dev.vars.example
+next-env.d.ts
+*.tsbuildinfo
