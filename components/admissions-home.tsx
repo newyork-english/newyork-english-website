@@ -53,7 +53,7 @@ export function AdmissionsHome({ reservation, onSession }: { reservation: ReactN
     <header className="school-header">
       <a className="school-logo" href="/" aria-label="New York English 홈"><img src="/new-york-english-logo-transparent.png" alt="New York English 로고" /></a>
       <nav id="school-navigation" className={menuOpen ? 'school-nav is-open' : 'school-nav'} aria-label="주 메뉴">
-        {[['교육 철학', '#philosophy'], ['교육과정', '#curriculum'], ['입학 설명회', '#sessions'], ['리뷰 이벤트', '/review-event']].map(([text, href]) => <a key={href} href={href} onClick={() => setMenuOpen(false)}>{text}</a>)}
+        {[['교육 철학', '#philosophy'], ['교육과정', '#curriculum'], ['입학 설명회', '#sessions']].map(([text, href]) => <a key={href} href={href} onClick={() => setMenuOpen(false)}>{text}</a>)}
       </nav>
       <a className="school-header-cta" href="#reserve">설명회 예약 <ArrowUpRight size={16} /></a>
       <button className="school-menu" aria-label={menuOpen ? '메뉴 닫기' : '메뉴 열기'} aria-expanded={menuOpen} aria-controls="school-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</button>
