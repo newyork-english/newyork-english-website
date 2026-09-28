@@ -34,7 +34,7 @@
 .school-hero .school-wordmark,.school-hero h1 { color: var(--paper); }
 .school-hero .school-wordmark em,.school-hero .school-label { color: var(--accent-light); }
 .school-hero .school-lead,.school-hero .school-hero-note,.school-hero-note span:first-child { color: var(--on-forest-muted); }
-.school-hero .school-button { background: var(--paper); color: var(--forest-deep); }
+.school-hero .school-button { margin-top: 24px; background: var(--paper); color: var(--forest-deep); }
 .school-hero .school-button:hover { background: var(--forest-soft); }
 .school-hero-seal { width: min(100%,420px); margin-inline: auto; }
 .school-hero-seal img { display: block; width: 100%; height: auto; filter: brightness(0) invert(1); opacity: .9; }
@@ -55,7 +55,17 @@
 .school-facts a { color: var(--forest); display: grid; place-items: center; min-height: 44px; }
 .school-philosophy { display: grid; grid-template-columns: 1.15fr 1fr; gap: 10%; }
 .school-philosophy .school-section-heading { align-self: center; }
-.school-philosophy .school-image { aspect-ratio: 4/3; }
+.school-photo-slider { min-width: 0; }
+.school-photo-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.school-photo-track::-webkit-scrollbar { display: none; }
+.school-photo-track .school-image { flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always; }
+.school-photo-controls { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+.school-photo-controls button { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; background: transparent; color: var(--forest); cursor: pointer; }
+.school-photo-dots { display: flex; }
+.school-photo-dots span { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
+.school-photo-dots [aria-current="true"] span { background: var(--forest); }
+.school-photo-controls button:focus-visible { outline: 3px solid var(--accent-light); outline-offset: 2px; }
+.school-philosophy .school-image { aspect-ratio: 4/5; }
 .school-philosophy-text { margin-top: 28px; }
 .school-philosophy-text p { font-size: 15px; color: var(--muted); margin-bottom: 18px; }
 .school-link { display: inline-flex; gap: 14px; align-items: center; min-height: 44px; font-size: 13px; font-weight: 700; color: var(--forest); }
@@ -99,7 +109,7 @@
 .school-stages strong { font-size: 10px; letter-spacing: .08em; color: var(--forest); }
 .school-stages small { font-size: 12px; color: var(--muted); }
 .school-materials { margin-top: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 7%; align-items: center; }
-.school-materials .school-image { aspect-ratio: 16/9; }
+.school-materials .school-image { aspect-ratio: 4/5; }
 .school-materials .school-image:has(.photo-mock) { min-height: 300px; }
 .school-materials h3 { font: 400 28px/1.5 var(--font-display); color: var(--forest-deep); margin-bottom: 20px; }
 .school-materials p:not(.school-label) { color: var(--muted); font-size: 15px; }
@@ -174,6 +184,8 @@
   .school-reservation-grid { gap: 32px; grid-template-columns: .8fr 1.2fr; }
 }
 @media (max-width: 760px) {
+  .curriculum-progression { flex-direction: column; }
+  .curriculum-progression svg { transform: rotate(90deg); }
   .school-wrap { width: calc(100% - 40px); }
   .school-section { padding-block: 64px; }
   .school-header { height: 78px; padding: 10px 20px; gap: 12px; }
@@ -199,7 +211,7 @@
   .school-facts span { font-size: 10px; }
   .school-facts > a { display: none; }
   .school-philosophy { grid-template-columns: 1fr; gap: 32px; }
-  .school-philosophy-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+  .school-philosophy-detail { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: center; }
   .school-philosophy-text { margin: 0; }
   .school-session-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .curriculum-flow { grid-template-columns: 1fr; gap: 40px; }
