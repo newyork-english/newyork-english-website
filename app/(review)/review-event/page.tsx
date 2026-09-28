@@ -29,7 +29,7 @@ export default function Home() {
           </a>
         </div>
         <p className="home-note">초등부 재원생 학부모님을 위한 이벤트입니다.</p>
-        <a className="home-return" href="/">2027 입학 설명회 보기 →</a>
+        <a className="home-return" href="/admissions">2027 입학 설명회 보기 →</a>
       </section>
     </main>
   );

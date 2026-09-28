@@ -44,7 +44,7 @@ export function AdmissionsHome({ reservation, onSession }: { reservation: ReactN
   return <div className="school-site" id="top">
     <a className="skip-link" href="#main-content">본문으로 바로가기</a>
     <header className="school-header">
-      <a className="school-logo" href="#top" aria-label="New York English 홈"><img src="/new-york-english-logo-transparent.png" alt="New York English 로고" /></a>
+      <a className="school-logo" href="/" aria-label="New York English 홈"><img src="/new-york-english-logo-transparent.png" alt="New York English 로고" /></a>
       <nav id="school-navigation" className={menuOpen ? 'school-nav is-open' : 'school-nav'} aria-label="주 메뉴">
         {[['교육 철학', '#philosophy'], ['교육과정', '#curriculum'], ['입학 설명회', '#sessions'], ['리뷰 이벤트', '/review-event']].map(([text, href]) => <a key={href} href={href} onClick={() => setMenuOpen(false)}>{text}</a>)}
       </nav>

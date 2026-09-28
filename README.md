@@ -4,13 +4,14 @@ Next.js App Router / React application built with Vinext for Cloudflare Workers.
 
 ## Routes
 
-- `/`: 2027 admissions briefing and reservations
+- `/`: single-screen brand home with admissions and review-event links
+- `/admissions`: 2027 admissions briefing and reservations
 - `/review-event`: preserved September review event
 - `/review-event/guide`: event participation guide
 - `/guide`: redirects to `/review-event/guide` for existing links
 - `/admin/nyenglish-2027`: password-protected reservation management
 
-Admissions and review event have separate root layouts and stylesheets.
+Brand home, admissions and review event have separate root layouts and stylesheets, sharing app/theme.css.
 
 ## Development
 
