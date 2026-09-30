@@ -28,7 +28,9 @@ export const slots: Slot[] = (() => {
     const date = new Date(Date.UTC(2026, 11, 7 + dayOffset));
     if (date.getUTCDay() === 0 || date.getUTCDay() === 6) continue;
     const idForTime = (time: string) => {
-      if (date.getUTCDate() === 18) return "7-2";
+      if (date.getUTCDate() === 18) return time === "10:00" ? "5-1" : "7-2";
+      if (date.getUTCDate() === 14 && time === "10:00") return "6-1";
+      if (date.getUTCDate() === 16 && time === "13:00") return "6-1";
       if (date.getUTCDate() === 15) return time === "13:00" ? "5-1" : "7-1";
       if (date.getUTCDate() === 17) return time === "13:00" ? "5-1" : "6-1";
       if (date.getUTCDate() === 10 && time === "13:00") return "5-1";
