@@ -1,5 +1,6 @@
 import { ensureProgressColumn } from '@/db/ensure-progress';
-import { and, count, eq, sql } from "drizzle-orm";
+import { sql } from "drizzle-orm";
+import { reserveSeat, validAttendees } from '@/db/reserve-seat';
 import { getDb } from "../../../db";
 import { reservations } from "../../../db/schema";
 import { getSession, slots } from "../../../lib/schedule";
@@ -22,13 +23,13 @@ export async function POST(request: Request) {
     const body = (await request.json()) as Record<string, unknown>;
     const slot = slots.find((item) => item.id === String(body.slotId ?? ""));
     if (!slot) return Response.json({ error: "선택한 세션을 찾을 수 없습니다." }, { status: 400 });
-    const values = { parentName: String(body.parentName ?? "").trim(), phone: String(body.phone ?? "").trim(), childName: String(body.childName ?? "").trim(), childAge: String(body.childAge ?? "").trim(), childGender: String(body.childGender ?? "").trim(), childYear: String(body.childYear ?? "").trim(), attendees: Math.max(1, Math.min(slot.capacity, Number(body.attendees ?? 1))) };
+    if (!validAttendees(body.attendees, slot.capacity)) return Response.json({ error: "참석 인원을 올바르게 선택해주세요." }, { status: 400 });
+    const values = { parentName: String(body.parentName ?? "").trim(), phone: String(body.phone ?? "").trim(), childName: String(body.childName ?? "").trim(), childAge: String(body.childAge ?? "").trim(), childGender: String(body.childGender ?? "").trim(), childYear: String(body.childYear ?? "").trim(), attendees: body.attendees };
     if (Object.values(values).some((value) => value === "")) return Response.json({ error: "모든 항목을 입력해주세요." }, { status: 400 });
     const db = getDb(); await ensureGenderColumn(db); await ensureProgressColumn(db);
-    const [current] = await db.select({ total: count() }).from(reservations).where(and(eq(reservations.slotId, slot.id), eq(reservations.status, "confirmed")));
-    if (Number(current?.total ?? 0) + values.attendees > slot.capacity) return Response.json({ error: "방금 예약이 마감되었습니다. 다른 시간을 선택해주세요." }, { status: 409 });
     const code = `NYE-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
-    const [reservation] = await db.insert(reservations).values({ code, slotId: slot.id, track: slot.track, sessionId: slot.sessionId, date: slot.date, time: slot.time, ...values }).returning();
+    const [reservation] = await reserveSeat(db, { code, slotId: slot.id, track: slot.track, sessionId: slot.sessionId, date: slot.date, time: slot.time, ...values }, slot.capacity);
+    if (!reservation) return Response.json({ error: "방금 예약이 마감되었습니다. 다른 시간을 선택해주세요." }, { status: 409 });
     return Response.json({ reservation, session: getSession(slot.sessionId) }, { status: 201 });
   } catch (error) { return Response.json({ error: message(error) }, { status: 500 }); }
 }
